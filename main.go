@@ -80,7 +80,7 @@ Flags:
 
 	flag.PrintDefaults()
 
-	fmt.Fprintln(flag.CommandLine.Output(), `
+	fmt.Fprint(flag.CommandLine.Output(), `
 Examples:
   envexpand -i api/.env.example
     # writes to ./<base>_out<ext> in current working directory

@@ -158,6 +158,17 @@ git push origin vX.Y.Z
 
 The release workflow will build all platform binaries and upload them as release assets.
 
+## Contributing
+
+Contributions are welcome via Pull Requests.
+
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for:
+
+- PR-based contribution flow
+- branch naming guidance
+- local validation commands
+- PR checklist and CI expectations
+
 ## Notes
 
 - Recursive expansion is supported.
