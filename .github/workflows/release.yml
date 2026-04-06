@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build binaries
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            bin/envexpand_linux_amd64
+            bin/envexpand_linux_arm64
+            bin/envexpand_darwin_amd64
+            bin/envexpand_darwin_arm64
+            bin/envexpand_windows_amd64.exe
+            bin/envexpand_windows_arm64.exe

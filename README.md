@@ -140,6 +140,24 @@ using:
 - `-trimpath`
 - `-ldflags "-s -w -buildid="`
 
+## Automated releases (GitHub)
+
+This repository is configured to publish a GitHub Release automatically when you push a tag prefixed with `v`.
+
+Examples:
+
+- `v1.0.0`
+- `v1.2.1`
+
+To create a release:
+
+```bash
+git tag vX.Y.Z
+git push origin vX.Y.Z
+```
+
+The release workflow will build all platform binaries and upload them as release assets.
+
 ## Notes
 
 - Recursive expansion is supported.
