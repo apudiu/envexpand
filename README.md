@@ -1,6 +1,19 @@
 # envexpand
 
+[![PR Checks](https://github.com/apudiu/envexpand/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/apudiu/envexpand/actions/workflows/pr-checks.yml)
+[![Release](https://github.com/apudiu/envexpand/actions/workflows/release.yml/badge.svg)](https://github.com/apudiu/envexpand/actions/workflows/release.yml)
+[![Latest Release](https://img.shields.io/github/v/release/apudiu/envexpand?sort=semver)](https://github.com/apudiu/envexpand/releases)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/apudiu/envexpand)](https://github.com/apudiu/envexpand/blob/main/go.mod)
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](./CONTRIBUTING.md)
+
 Small Go CLI to expand variables inside `.env` files for deployment workflows (e.g. k3s + kustomize secrets), without using shell `envsubst` directly.
+
+## Highlights
+
+- ✅ PR-based contribution workflow with automated CI checks
+- ✅ Automated versioned releases on tags like `v1.2.1`
+- ✅ Cross-platform binary builds for Linux/macOS/Windows (amd64 + arm64)
+- ✅ Deterministic `.env` variable expansion with circular-reference protection
 
 ## Why this exists
 
