@@ -17,10 +17,12 @@ func main() {
 	var inputPath string
 	var outputPath string
 	var compact bool
+	var keepQuotes bool
 
 	flag.StringVar(&inputPath, "i", "", "Input .env file path (required)")
 	flag.StringVar(&outputPath, "o", "", "Output file path (optional)")
 	flag.BoolVar(&compact, "c", false, "Compact output: strip comments and blank/whitespace lines")
+	flag.BoolVar(&keepQuotes, "keep-quotes", false, "Keep quotes in expanded values (default: quotes are stripped)")
 	flag.Usage = usage
 	flag.Parse()
 
@@ -44,7 +46,7 @@ func main() {
 		exitWithError(fmt.Errorf("read input file: %w", err))
 	}
 
-	processed, err := processEnvContent(string(inBytes), compact)
+	processed, err := processEnvContent(string(inBytes), compact, keepQuotes)
 	if err != nil {
 		exitWithError(err)
 	}
@@ -70,10 +72,11 @@ Resolution order:
   2) operating-system environment variables
 
 Unresolved variables are left unchanged.
-Quoted values are expanded and quotes are preserved.
+By default, quotes are stripped from expanded values.
+Use --keep-quotes to preserve quotes in the output.
 
 Usage:
-  envexpand -i <input-file> [-o <output-file>] [-c]
+  envexpand -i <input-file> [-o <output-file>] [-c] [--keep-quotes]
 
 Flags:
 `)
@@ -89,6 +92,9 @@ Examples:
 
   envexpand -i api/.env.example -c
     # compact output: strips comments and blank/whitespace-only lines
+
+  envexpand -i api/.env.example --keep-quotes
+    # preserves quotes around expanded values
 `)
 }
 
@@ -105,8 +111,9 @@ func defaultOutputName(inputBase string) string {
 //   - supports ${VAR} and $VAR
 //   - resolves from already parsed keys first, then OS env
 //   - preserves unresolved placeholders
-//   - preserves quotes when values were originally quoted
-func processEnvContent(content string, compact bool) (string, error) {
+//   - by default, quotes are stripped from expanded values
+//   - use --keep-quotes to preserve quotes in output
+func processEnvContent(content string, compact bool, keepQuotes bool) (string, error) {
 	hadTrailingNewline := strings.HasSuffix(content, "\n")
 	lines := strings.Split(content, "\n")
 
@@ -165,7 +172,7 @@ func processEnvContent(content string, compact bool) (string, error) {
 		cache[key] = expandedValue
 
 		rendered := expandedValue
-		if quoted {
+		if quoted && keepQuotes {
 			rendered = string(quoteChar) + rendered + string(quoteChar)
 		}
 

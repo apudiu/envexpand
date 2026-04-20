@@ -57,7 +57,7 @@ If still unresolved, the placeholder is preserved as-is.
 
 ### Quoted values
 
-Quoted values are expanded and quotes are preserved.
+Quoted values are expanded and, by default, quotes are stripped from the output.
 
 Example:
 
@@ -67,6 +67,19 @@ MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 Becomes:
+
+```env
+APP_NAME=Order Online
+MAIL_FROM_NAME=Order Online
+```
+
+To preserve quotes in the output, use the `--keep-quotes` flag:
+
+```bash
+envexpand -i .env --keep-quotes
+```
+
+Output with `--keep-quotes`:
 
 ```env
 APP_NAME="Order Online"
@@ -85,7 +98,8 @@ When compact mode is enabled:
 
 - `-i` (required): input `.env` file path
 - `-o` (optional): output file path
-- `-c` (optional): compact output
+- `-c` (optional): compact output (strips comments and blank lines)
+- `--keep-quotes` (optional): preserve quotes around expanded values (default: quotes are stripped)
 - `-h`: show help
 
 ## Output path behavior
@@ -113,6 +127,9 @@ Example:
 
 # Compact output
 ./bin/envexpand_linux_amd64 -i /path/to/.env.example -c -o /path/to/.env.compact
+
+# Preserve quotes in output
+./bin/envexpand_linux_amd64 -i /path/to/.env.example --keep-quotes
 ```
 
 ## Build binaries
