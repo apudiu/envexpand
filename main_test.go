@@ -106,14 +106,14 @@ func TestProcessEnvContent_CompactModeStripsCommentsAndBlankLines(t *testing.T) 
 }
 
 func TestProcessEnvContent_CircularReferencesDoNotLoop(t *testing.T) {
-        in := "A=$B\nB=$A\nC=$A\n"
-        out, err := processEnvContentDefault(in, false)
-        if err != nil {
-                t.Fatalf("processEnvContent returned error: %v", err)
-        }
+	in := "A=$B\nB=$A\nC=$A\n"
+	out, err := processEnvContentDefault(in, false)
+	if err != nil {
+		t.Fatalf("processEnvContent returned error: %v", err)
+	}
 
-        expected := "A=$B\nB=$B\nC=$B\n"
-        if out != expected {
-                t.Fatalf("unexpected output\nexpected:\n%q\nactual:\n%q", expected, out)
-        }
+	expected := "A=$B\nB=$B\nC=$B\n"
+	if out != expected {
+		t.Fatalf("unexpected output\nexpected:\n%q\nactual:\n%q", expected, out)
+	}
 }
